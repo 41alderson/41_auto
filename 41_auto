@@ -7,6 +7,28 @@ white="\033[1;37m"
 transparent="\e[0m"
 
 notify-send "Starting The Script..." 
+
+function check_compatibilty()
+{
+    sleep 2
+    echo -e ""$white"\nChecking For Compatibility Please Wait..."$transparent""
+    sleep 2
+    if [ "`uname`" == "Linux" ]
+    then
+    {
+        echo -e ""$yellow"\n\t\tCheck Complete.\n\t\tCompatible With Your OS"$transparent""
+    }
+    else
+    {
+        echo -e ""$red"\nSystem Is Not Compatible OOPS Script Can\'t Continue"$transparent""
+        sleep 2
+        exit
+    }
+    fi
+}
+
+check_compatibilty
+
 sleep 2
 echo -e "\n\t\t"$white"Welcome To C-Auto_Compiler\n"
 sleep 1
@@ -25,16 +47,17 @@ function main()
     do
     {
         cd $file_loc
+        sleep 2
         if [ "`grep -i "math.h" $file_name.c`" == "#include <math.h>" ] || [ "`grep -i "math.h" $file_name.c`" == "#include<math.h>" ]
         then
         {
             echo -e "\n"$red"Following Header Files Were Included"$transparent""
             sleep 1.5
-            grep -i "include" $file_name.c
+            grep -i "#include" $file_name.c
             sleep 1.5
             gcc $file_name.c -o $file_name -lm
             echo -e "\n"
-            echo -e "\t\tExecuting file\n\n"
+            echo -e "\t\t"$blue"Executing file\n\n"$transparent""
             
             ./$file_name
         }
@@ -46,7 +69,7 @@ function main()
             sleep 1.5
             gcc $file_name.c -o $file_name 
             echo -e "\n"
-            echo -e "\t\tExecuting file\n\n"
+            echo -e "\t\t"$blue"Executing file\n\n"$transparent""
             
             ./$file_name
         }
@@ -56,4 +79,5 @@ function main()
     }
     done
 }
+
 main
